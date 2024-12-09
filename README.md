@@ -7,8 +7,9 @@ Buka berkas Anda .envdan ubah nama basis data ( DB_DATABASE) menjadi apa pun yan
 5. Hapus folder image di dalam folder public/image
 6. php artisan storage:link
 7. php artisan migrate
-8. php artisan serve
-9. npm install 
+8. npm install 
+9. php artisan serve
+   
 
 url login = http://127.0.0.1:8000/login
 url register = http://127.0.0.1:8000/register
