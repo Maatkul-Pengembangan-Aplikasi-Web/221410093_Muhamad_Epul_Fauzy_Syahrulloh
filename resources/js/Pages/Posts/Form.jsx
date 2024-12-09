@@ -14,6 +14,7 @@ const FormPage = ({ setIsOpen, isOpen,id,dataForm, setDataForm, setId}) => {
     const submit = (e) => {
         e.preventDefault();
         (id) ? router.put(route('prodi.update',id), data,{
+
             onSuccess: () => {
                 setDataForm(null)
                 setId(null)

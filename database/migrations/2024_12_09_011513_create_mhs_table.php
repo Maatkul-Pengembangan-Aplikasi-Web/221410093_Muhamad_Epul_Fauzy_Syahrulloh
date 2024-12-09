@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
-            $table->bigIncrements("id");
-            $table->string("kode");
+        Schema::create('mhs', function (Blueprint $table) {
+            $table->id();
             $table->string("nama");
-            // $table->text('body');
+            $table->integer("npm");
+            $table->unsignedBigInteger("postId");
+            $table->foreign("postId")->references("id")->on("posts");
+            $table->string("image")->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +27,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('mhs');
     }
 };
+
+
+
+
+
+

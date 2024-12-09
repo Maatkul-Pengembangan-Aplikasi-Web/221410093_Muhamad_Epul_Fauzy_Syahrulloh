@@ -22,6 +22,13 @@ class PostsController extends Controller
         return Inertia::render("Posts/Posts", ["title" => "Prodi","posts" => $posts]);
     }
 
+    public function search(Request $request) 
+    {
+        
+        $mhs = Posts::where("nama","like", "%". $request->input("search") . "%")->orderBy("id","DESC")->get();
+        return response()->json($mhs);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

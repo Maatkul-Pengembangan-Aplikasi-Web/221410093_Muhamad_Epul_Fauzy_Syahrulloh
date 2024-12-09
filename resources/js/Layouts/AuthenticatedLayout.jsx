@@ -36,6 +36,12 @@ export default function Authenticated({ header, children }) {
                                 >
                                     Prodi
                                 </NavLink>
+                                <NavLink
+                                    href={route('mahasiswa')}
+                                    active={route().current('mahasiswa')}
+                                >
+                                    Mahasiswa
+                                </NavLink>
                             </div>
                         </div>
 

@@ -1,15 +1,14 @@
-import { Head, usePage } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import TableComponent from '@/Components/Table'
 import { useEffect, useState } from 'react'
 import Modal from '@/Components/Modal'
 import FormPage from './Form'
 import DeletePage from './Delete'
-import InputLabel from '@/Components/InputLabel'
 import TextInput from '@/Components/TextInput'
-import InputError from '@/Components/InputError'
-import { useDebouncedCallback } from 'use-debounce'
-const PostsPage = ({title, posts}) => {
+import { useDebouncedCallback } from 'use-debounce';
+
+const MhsPage = ({title, posts}) => {
     const { flash } = usePage().props
     const [isOpen, setIsOpen] = useState(false)
     const [isOpenDelete, setIsOpenDelete] = useState(false)
@@ -17,22 +16,18 @@ const PostsPage = ({title, posts}) => {
     const [id, setId] = useState(null) 
     const [nama,setNama] = useState(null)
     const [data,setData] = useState(null)
-    const [ prd, setPrd ] = useState()
+    const [ mhs, setMhs ] = useState()
     const [ search, setSearch ] = useState("")
 
     useEffect(() => {
-        if(flash?.message) setVisible(true)
-    },[flash])
-
-    useEffect(() => {
-        setPrd(posts)
+        setMhs(posts)
     },[ posts ])
 
     useEffect(() => {
         const getProdi = async () => {
             try {
-                const { data } = await axios.post(route("prodi.search"),{ search })
-                setPrd(data)
+                const { data } = await axios.post(route("mahasiswa.search"),{ search })
+                setMhs(data)
             } catch (error) {
                 console.log(error);
                 
@@ -42,40 +37,51 @@ const PostsPage = ({title, posts}) => {
         getProdi()
     },[ search ])
 
+    useEffect(() => {
+        if(flash?.message) setVisible(true)
+    },[flash])
+
     const tableBody = data => {
-        
         return (data && data.length > 0) ? data.map((d) => (
-            <tr key={d.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {d.kode}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            <tr key={d.id} className="p-0 text-center">
+                <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
                 {d.nama}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex gap-2">
-                <button
-                    onClick={() => {
-                        setId(d.id)
-                        setData(d)
-                        setIsOpen(true)
-                    }}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mb-4 px-4 rounded"
-                    >
-                    Edit
-                </button>
-                <button
-                    onClick={() => {
-                        setId(d.id)
-                        setNama(d.nama)
-                        setIsOpenDelete(true)
-                    }}
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 mb-4 px-4 rounded"
-                    >
-                    Hapus
-                </button>
+                <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
+                {d.npm}
+                </td>
+                <td className="px-6 py-1 whitespace-nowrap text-sm font-medium text-gray-900">
+                {d.npm}
+                </td>
+                <td className="px-6 p-0  text-sm font-medium text-gray-900">
+                    <img src={d.image} className="w-10 h-10 rounded-full object-cover p-0 m-0" alt="" />
+                </td>
+                <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-500 ">
+                    <div className="flex gap-1 p-1">
+                        <button
+                        onClick={() => {
+                            setId(d.id)
+                            setData(d)
+                            setIsOpen(true)
+                        }}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mb-4 px-4 rounded"
+                        >
+                        Edit
+                    </button>
+                    <button
+                        onClick={() => {
+                            setId(d.id)
+                            setNama(d.nama)
+                            setIsOpenDelete(true)
+                        }}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 mb-4 px-4 rounded"
+                        >
+                        Hapus
+                    </button>
+                    </div>
                 </td>
             </tr>
-            )) : (<tr className="w-full"><td colSpan={3} className="bg-red-700 text-slate-50 p-1 font-medium text-md text-center">Tidak ada dtaa</td></tr>)
+            )) :  (<tr className="w-full"><td colSpan={5} className="bg-red-700 text-slate-50 p-1 font-medium text-md text-center">Tidak ada data</td></tr>)
     }
 
     const handleChangeSearch = useDebouncedCallback((e)=>{
@@ -90,7 +96,6 @@ const PostsPage = ({title, posts}) => {
                 Prodi
             </h2>
         }>
-
 
     <Head title={ title } />
 
@@ -118,7 +123,7 @@ const PostsPage = ({title, posts}) => {
             </div>
         </div>
             <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
-            <div className="flex justify-end">
+                <div className="flex justify-end">
                 <div className="p-2 text-gray-900 dark:text-gray-100 w-full flex justify-end">
                     <TextInput
                             id="nama"
@@ -131,10 +136,7 @@ const PostsPage = ({title, posts}) => {
                         />
                     </div>
                 </div>
-                <div className="p-6 text-gray-900 dark:text-gray-100">
-                    
-                    <TableComponent td={tableBody(prd)} th={["Kode Prodi","Nama Prodi","Action"]}/>
-                </div>
+                <TableComponent td={tableBody(mhs)} th={["Nama","Npm","Prodi","Foto","Action"]} />
             </div>
         </div>
         <Modal onClose={() => setIsOpen(false)} show={isOpen} setDataForm={setData} setId={setId}>
@@ -147,4 +149,4 @@ const PostsPage = ({title, posts}) => {
 </AuthenticatedLayout>
 }
 
-export default PostsPage
+export default MhsPage
