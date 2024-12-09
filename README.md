@@ -1,4 +1,4 @@
-1git clone https://github.com/Maatkul-Pengembangan-Aplikasi-Web/221410093_Muhamad_Epul_Fauzy_Syahrulloh.git
+1. git clone https://github.com/Maatkul-Pengembangan-Aplikasi-Web/221410093_Muhamad_Epul_Fauzy_Syahrulloh.git
 
 2. composer install
 3. Salin .env.examplefile ke .envfolder root. Anda dapat mengetik copy .env.example .envjika menggunakan command prompt Windows atau cp .env.example .envjika menggunakan terminal, Ubuntu
